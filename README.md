@@ -1,7 +1,8 @@
 # Sawmill Snippet Extension for VSCode
 
 Useful snippets for writing [Sawmills](https://github.com/logzio/sawmill/)
-Applies to `.json` files
+
+Applies only to `.json` files
 
 ## Installation
 
