@@ -2,7 +2,7 @@
 
 Useful snippets for writing [Sawmills](https://github.com/logzio/sawmill/)
 
-Active when filetype is set to `JSON`
+Active when language mode is set to `JSON` or file has extension `.json`
 
 ## Installation
 
