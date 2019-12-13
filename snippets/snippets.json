@@ -1,0 +1,354 @@
+{
+	"steps": {
+		"prefix": "steps",
+		"body": [
+			"\"steps\": [",
+			"\t{",
+			"\t\t$0",
+			"\t}",
+			"]"
+		],
+		"description": "Steps to be executed"
+	},
+	"onSuccess": {
+		"prefix": "onSuccess",
+		"body": [
+			"\"onSuccess\": [",
+			"\t{",
+			"\t\t$0",
+			"\t}",
+			"]"
+		],
+		"description": "On success, execute steps in this array"
+	},
+	"onFailure": {
+		"prefix": "onFailure",
+		"body": [
+			"\"onFailure\": [",
+			"\t{",
+			"\t\t$0",
+			"\t}",
+			"]"
+		],
+		"description": "On failure, execute steps in this array"
+	},
+	"grok": {
+		"prefix": "grok",
+		"body": [
+			"\"grok\": {", 
+			"\t\"config\": {",
+			"\t\t\"field\": \"${1:message}\",",
+			"\t\t\"patterns\": [",
+			"\t\t\t\"$2\"",
+			"\t\t]",
+			"\t}$3",
+			"}$0"
+		],
+		"description": "Extract fields using GROK expression"
+	},
+	"date": {
+		"prefix": "date",
+		"body": [
+			"\"date\": {", 
+			"\t\"config\": {",
+			"\t\t\"field\": \"timestamp\",",
+			"\t\t\"targetField\": \"@timestamp\",",
+			"\t\t\"timeZone\": \"$1\",",
+			"\t\t\"formats\": [",
+			"\t\t\t\"${2:yyyy-MM-dd HH:mm:ss.SSS}\"",
+			"\t\t]",
+			"\t}$3",
+			"}$0"
+		],
+		"description": "Parses a date field and outputs in a format that elasticsearch supports"
+	},
+	"drop": {
+		"prefix": "drop",
+		"body": [
+			"\"drop\": {",
+			"\t\"config\": {",
+			"\t\t\"percentage\": \"${1:100}\"",
+			"\t}$2",
+			"}$0"
+		],
+		"description": "Drops log lines"
+	},
+	"removeField": {
+		"prefix": "removeField",
+		"body": [
+			"\"removeField\": {",
+			"\t\"config\": {",
+			"\t\t\"fields\": [",
+			"\t\t\t\"$1\"",
+			"\t\t]",
+			"\t}$2",
+			"}$0"
+		],
+		"description": "Removes one or more fields"
+	},
+	"addField": {
+		"prefix": "addField",
+		"body": [
+			"\"addField\": {",
+			"\t\"config\": {",
+			"\t\t\"path\": \"$1\",",
+			"\t\t\"value\": \"{{$2}}\"",
+			"\t}$3",
+			"}$0"
+		],
+		"description": "Adds a field"
+	},
+	"geoIp": {
+		"prefix": "geoIp",
+		"body": [
+			"\"geoIp\": {",
+			"\t\"config\": {",
+			"\t\t\"sourceField\": \"$1\",",
+			"\t\t\"targetField\": \"geoip\",",
+			"\t\t\"tagsOnSuccess\": [\"geo-ip\"]",
+			"\t}$2",
+			"}$0"
+		],
+		"description": "Adds geo-ip enrichment"
+	},
+	"json": {
+		"prefix": "json",
+		"body": [
+			"\"json\": {",
+			"\t\"config\": {",
+			"\t\t\"field\": \"${1:json}\",",
+			"\t\t\"targetField\": \"$2\"",
+			"\t}$3",
+			"}$0"
+		],
+		"description": "Parses a valid JSON string into a JSON object"
+	},
+	"convert": {
+		"prefix": "convert",
+		"body": [
+			"\"convert\": {",
+			"\t\"config\": {",
+			"\t\t\"paths\": [",
+			"\t\t\t\"$1\"",
+			"\t\t],",
+			"\t\t\"type\": \"${2|int,long,float,double,string,boolean|}\"",
+			"\t}$3",
+			"}$0"
+		],
+		"description": "Converts fields to a different type"
+	},
+	"substitue": {
+		"prefix": ["substitue", "gsub"],
+		"body": [
+			"\"gsub\": {",
+			"\t\"config\": {",
+			"\t\t\"field\": \"$1\",",
+			"\t\t\"pattern\": \"$2\",",
+			"\t\t\"replacement\": \"$3\"",
+			"\t}$4",
+			"}$0"
+		],
+		"description": "Regex find and replace"
+	},
+	"keyValue": {
+		"prefix": ["kv", "keyValue"],
+		"body": [
+			"\"kv\": {",
+			"\t\"config\": {",
+			"\t\t\"field\": \"${1:kv}\",",
+			"\t\t\"targetField\": \"$2\",",
+			"\t\t\"includeKeys\": [\"$3\"],",
+			"\t\t\"excludeKeys\": [\"$4\"],",
+			"\t\t\"trim\": \"$5\",",
+			"\t\t\"valueSplit\": \"${6:=}\",",
+			"\t\t\"fieldSplit\": \"${7: }\"",
+			"\t}$8",
+			"}$0"
+		]
+	},
+	"csv": {
+		"prefix": "csv",
+		"body": [
+			"\"csv\": {",
+			"\t\"config\": {",
+			"\t\t\"field\": \"${1:csv}\",",
+			"\t\t\"targetField\": \"$2\",",
+			"\t\t\"seperator\": \"$3\",",
+			"\t}$8",
+			"}$0"
+		],
+		"description": "Extract fields from a string that is in a CSV format"
+	},
+	"userAgent": {
+		"prefix": "userAgent",
+		"body": [
+			"\"userAgent\": {",
+			"\t\"config\": {",
+			"\t\t\"field\": \"$1\",",
+			"\t\t\"prefix\": \"${2:UA-}\"",
+			"\t}$3",
+			"}$0"
+		]
+	},
+	"translate": {
+		"prefix": "translate",
+		"body": [
+			"\"field\": {",
+			"\t\"config\": {",
+			"\t\t\"field\": \"$1\",",
+			"\t\t\"targetField\": \"$2\",",
+			"\t\t\"fallback\": \"$3\",",
+			"\t\t\"dictionary\": {",
+			"\t\t\t$4",
+			"\t\t}",
+			"\t}$5",
+			"}$0"
+		]
+	},
+	"addTag": {
+		"prefix": "addTag",
+		"body": [
+			"\"addTag\": {",
+			"\t\"config\": {",
+			"\t\t\"tags\": [",
+			"\t\t\t$1",
+			"\t\t]",
+			"\t}$2",
+			"}$0"
+		],
+		"description": "Add a tag or tags"
+	},
+	"removeTag": {
+		"prefix": "removeTag",
+		"body": [
+			"\"removeTag\": {",
+			"\t\"config\": {",
+			"\t\t\"tags\": [",
+			"\t\t\t$1",
+			"\t\t]",
+			"\t}$2",
+			"}$0"
+		],
+		"description": "Remove a tag or tags"
+	},
+	"if": {
+		"prefix": "if",
+		"body": [
+			"\"if\": {",
+			"\t\"condition\": {", 
+			"\t\t$1",
+			"\t},",
+			"\t\"then\": [",
+			"\t\t$2",
+			"\t],",
+			"\t\"else\": [",
+			"\t\t$3",
+			"\t]",
+			"\t}$0"
+		],
+		"description": "If condition"
+	},
+	"in": {
+		"prefix": "in",
+		"body": [
+			"\"in\": {",
+			"\t\"path\": \"${1:tags}\",",
+			"\t\"value\": \"${2|_grokparsefailure,_jsonparsefailure|}\"",
+			"}$0"
+		],
+		"description": "Find a value in an array field"
+	},
+	"hasValue": {
+		"prefix": "hasValue",
+		"body": [
+			"\"hasValue\": {",
+			"\t\"field\": \"$1\",",
+			"\t\"possibleValues\": [",
+			"\t\t$2",
+			"\t]",
+			"}$0"
+		],
+		"description": "Check if a field contains a value"
+	},
+	"matchRegex": {
+		"prefix": "matchRegex",
+		"body": [
+			"\"matchRegex\": {",
+			"\t\"field\": \"$1\",",
+			"\t\"regex\": \"$2\"",
+			"}$0"
+		],
+		"description": "Check if a field matches a regex expression"
+	},
+    "exists": {
+		"prefix": "exists",
+		"body": [
+			"\"exists\": {",
+			"\t\"field\": \"$1\"",
+			"}$0"
+		],
+		"description": "Check if a field exists"
+	},
+	"fieldType": {
+		"prefix": "fieldType",
+		"body": [
+			"\"fieldType\": {",
+			"\t\"path\": \"$1\",",
+			"\t\"type\": \"${2|string,long,double,list,jsonObject|}\"",
+			"}$0"
+		],
+		"description": "Checks if a field is a specified type"
+	},
+	"mathComparator": {
+		"prefix": "mathComparator",
+		"body": [
+			"\"mathComparator\": {",
+			"\t\"field\": \"$1\",",
+			"\t\"gt\": \"$2\",",
+			"\t\"gte\": \"$3\",",
+			"\t\"lt\": \"$4\",",
+			"\t\"lte\": \"$5\"",
+			"}$0"
+		],
+		"description": "Checks if a value is greater than, lesser than, or between"
+	},
+	"and": {
+		"prefix": "and",
+		"body": [
+			"\"and\": [",
+			"\t{",
+			"\t\t$1",
+			"\t},",
+			"\t{",
+			"\t\t$2",
+			"\t}$3",
+			"]$0"
+		],
+		"description": "AND operator"
+	},
+	"or": {
+		"prefix": "or",
+		"body": [
+			"\"or\": [",
+			"\t{",
+			"\t\t$1",
+			"\t},",
+			"\t{",
+			"\t\t$2",
+			"\t}$3",
+			"]$0"
+		],
+		"description": "OR operator"
+	},
+	"not": {
+		"prefix": "not",
+		"body": [
+			"\"not\": [",
+			"\t{",
+			"\t\t$1",
+			"\t}$2",
+			"]$0"
+		],
+		"description": "NOT operator"
+	}
+}
