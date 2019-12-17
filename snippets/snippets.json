@@ -172,7 +172,7 @@
 			"\"csv\": {",
 			"\t\"config\": {",
 			"\t\t\"field\": \"${1:csv}\",",
-			"\t\t\"seperator\": \"{$3:,}\",",
+			"\t\t\"seperator\": \"${3:,}\",",
 			"\t\t\"columns\": [",
 			"\t\t\t$4",
 			"\t\t]",
